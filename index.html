@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>dentakku</title>
+  <style type="text/css">
+  
+    body{
+      font-family: 'Avenir Next', sans-self;
+    }
+    div,span{
+      box-sizing: border-box;
+    }
+    .container{
+      padding: 20px;
+    }
+    .wrap{
+      background-color: #000;
+      width: 320px;
+      border-radius: 10px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .wrap-result,
+    .wrap-cal{
+      border: 1px solid  #666;
+      border-radius: 4px;
+      padding: 10px;
+    }
+    .wrap-result{
+      margin-bottom: 10px;
+    }
+    .wrap-result > div{
+      background-color: #fff;
+      border-radius: 3px;
+      line-height: 1;
+      font-size: 36px;
+      text-align: right;
+      padding: 10px;
+    }
+    .wrap-cal{
+      font-size: 0;
+    }
+    .wrap-cal > div{
+      display: inline-block;
+      padding: 4px;
+      vertical-align: top;
+    }
+    .cal-left{
+      width: 75%;
+    }
+    div.cal-right{
+      width: 25%;
+      padding-left:0;
+    }
+    .wrap-cal > div >div{
+      padding: 5px;
+    }
+    .wrap-cal span{
+      color: #fff;
+      font-size: 30px;
+      background-color: #ccc;
+      border-radius: 3px;
+      text-align: center;
+      padding: 10px;
+      display: inline-block;
+      width: 100%;
+      line-height: 1;
+      cursor: pointer;
+      position: relative;
+      top: 0;
+      left: 0;
+   }
+   .wrap-cal span:hover{
+     opacity: .8;
+   }
+   .wrap-cal span:active{
+     top: 2px;
+     left: 2px;
+   }
+    .cal-left > div{
+      width: calc(100% / 3);
+      display: inline-block;
+    }
+    div.clear-width,
+    div.zero-width{
+      width: 100%;
+    }
+    .cal-right span{
+      background-color: #00c;
+    }
+    #cal-eq{
+      background-color: #c00;
+    }
+  </style>
+</head>
+
+<body>
+ <div class="container">
+   <div class="wrap">
+     <div class="wrap-result">
+       <div id="result">0</div>
+     </div>
+     <div class="wrap-cal" id="cal-all">
+       <div class="cal-left">
+         <div class="clear-width"><span id="cal-clear">C</span></div>
+         <div><span id="cal-9">9</span></div>
+         <div><span id="cal-8">8</span></div>
+         <div><span id="cal-7">7</span></div>
+         <div><span id="cal-6">6</span></div>
+         <div><span id="cal-5">5</span></div>
+         <div><span id="cal-4">4</span></div>
+         <div><span id="cal-3">3</span></div>
+         <div><span id="cal-2">2</span></div>
+         <div><span id="cal-1">1</span></div>
+         <div class="zero-width"><span id="cal-0">0</span></div>
+       </div>
+       <div class="cal-right">
+         <div><span id="cal-divi">%</span></div>
+         <div><span id="cal-multi">*</span></div>
+         <div><span id="cal-sub">-</span></div>
+         <div><span id="cal-add">+</span></div>
+         <div><span id="cal-eq">=</span></div>
+       </div>
+     </div>
+   </div>
+ </div>
+ 
+ <script type="text/javascript" >
+  // (function(){
+     
+     'use strict';
+     
+     var result = document.getElementById('result');
+     
+      var cal_0 = document.getElementById('cal-0');
+      var cal_1 = document.getElementById('cal-1');
+      var cal_2 = document.getElementById('cal-2');
+      var cal_3 = document.getElementById('cal-3');
+      var cal_4 = document.getElementById('cal-4');
+      var cal_5 = document.getElementById('cal-5');
+      var cal_6 = document.getElementById('cal-6');
+      var cal_7 = document.getElementById('cal-7');
+      var cal_8 = document.getElementById('cal-8');
+      var cal_9 = document.getElementById('cal-9');
+      var cal_clear = document.getElementById('cal-clear');
+      var cal_divi = document.getElementById('cal-divi');
+      var cal_multi = document.getElementById('cal-multi');
+      var cal_sub = document.getElementById('cal-sub');
+      var cal_add = document.getElementById('cal-add');
+      var cal_eq = document.getElementById('cal-eq');
+      
+      var cal_all = document.getElementById('cal-all');
+      
+      var displayNum = "0";
+      var calNum01;
+      var calNum02;
+      
+      cal_all.addEventListener('click', function(e){
+
+        var setId = e.target.id;
+
+        if(displayNum.length > 11){
+          return;
+        }
+        
+        switch(setId){
+　        case "cal-0":
+  　        displayNum += "0";
+　　        break; 
+　        case "cal-1": 
+　          displayNum +=  "1";
+　　        break; 
+　        case "cal-2": 
+　          displayNum += "2";
+　　        break; 
+　        case "cal-3": 
+　          displayNum += "3";
+　　        break; 
+　        case "cal-4": 
+　          displayNum += "4";
+　　        break; 
+　        case "cal-5": 
+　          displayNum += "5";
+　　        break; 
+　        case "cal-6": 
+　          displayNum += "6";
+　　        break; 
+　        case "cal-7": 
+　          displayNum += "7";
+　　        break; 
+　        case "cal-8": 
+　          displayNum += "8";
+　　        break; 
+　        case "cal-9": 
+　          displayNum += "9";
+　　        break;
+　　        
+　　      case "cal-add":
+　　        console.log(Number(displayNum));
+　　        calNum01 = Number(displayNum);
+　　        displayNum = "";
+　　        break;
+　　      
+　　      case "cal-eq":
+　　        calNum02 = Number(displayNum);
+　　        displayNum = 0;
+　　        displayNum = calNum01 + calNum02;
+　　        break;
+　　        
+        };
+        
+        result.textContent = Number(displayNum);
+        
+      });
+      
+      cal_clear.addEventListener('click', function(){
+        displayNum = "0";
+        calNum01 = null;
+        calNum02 = null;
+      });
+     
+  // })();
+ </script>
+</body>
+
+</html>
