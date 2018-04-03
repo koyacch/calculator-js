@@ -36,7 +36,7 @@
     .wrap-result > div{
       background-color: #fff;
       border-radius: 3px;
-      line-height: 1;
+      line-height: 36px;
       font-size: 36px;
       text-align: right;
       padding: 10px;
@@ -73,6 +73,7 @@
       position: relative;
       top: 0;
       left: 0;
+      user-select:none;
    }
    .wrap-cal span:hover{
      opacity: .8;
@@ -119,7 +120,7 @@
          <div class="zero-width"><span id="cal-0">0</span></div>
        </div>
        <div class="cal-right">
-         <div><span id="cal-divi">%</span></div>
+         <div><span id="cal-divi">/</span></div>
          <div><span id="cal-multi">*</span></div>
          <div><span id="cal-sub">-</span></div>
          <div><span id="cal-add">+</span></div>
@@ -130,7 +131,7 @@
  </div>
  
  <script type="text/javascript" >
-  // (function(){
+   (function(){
      
      'use strict';
      
@@ -158,72 +159,124 @@
       var displayNum = "0";
       var calNum01;
       var calNum02;
+      var calProg = 0;
+      var calResult;
+      var calType;
+      
+      var defaultFontSize = 36;
+      var setFontSize;
       
       cal_all.addEventListener('click', function(e){
 
-        var setId = e.target.id;
+        // get keytype id
 
-        if(displayNum.length > 11){
-          return;
+        var setId = e.target.id;
+        
+        // display number
+        
+        for(var i = 0; i<10; i++){
+          if(setId === "cal-" + i){
+            if(displayNum.length < 11){
+              displayNum += i.toString();
+            }
+          }
         }
         
+        // calculation switch
+        
         switch(setId){
-　        case "cal-0":
-  　        displayNum += "0";
-　　        break; 
-　        case "cal-1": 
-　          displayNum +=  "1";
-　　        break; 
-　        case "cal-2": 
-　          displayNum += "2";
-　　        break; 
-　        case "cal-3": 
-　          displayNum += "3";
-　　        break; 
-　        case "cal-4": 
-　          displayNum += "4";
-　　        break; 
-　        case "cal-5": 
-　          displayNum += "5";
-　　        break; 
-　        case "cal-6": 
-　          displayNum += "6";
-　　        break; 
-　        case "cal-7": 
-　          displayNum += "7";
-　　        break; 
-　        case "cal-8": 
-　          displayNum += "8";
-　　        break; 
-　        case "cal-9": 
-　          displayNum += "9";
+
+　　      case "cal-divi":
+　　        calType = "divi";
+  　　        if(calProg === 0){
+    　　        calProg = Number(displayNum);
+　　        }
+　　        else{
+　　          calProg /= Number(displayNum);
+　　        }
+　　        console.log(calProg);
+　　        displayNum = "";
 　　        break;
-　　        
+　　      
+　　      case "cal-multi":
+　　        calType = "multi";
+  　　        if(calProg === 0){
+    　　        calProg = Number(displayNum);
+　　        }
+　　        else{
+　　          calProg *= Number(displayNum);
+　　        }
+　　        console.log(calProg);
+　　        displayNum = "";
+　　        break;
+　　      
+　　      case "cal-sub":
+　　        calType = "sub";
+  　　        if(calProg === 0){
+    　　        calProg = Number(displayNum);
+　　        }
+　　        else{
+　　          calProg -= Number(displayNum);
+　　        }
+　　        console.log(calProg);
+　　        displayNum = "";
+　　        break;
+　　      
 　　      case "cal-add":
-　　        console.log(Number(displayNum));
-　　        calNum01 = Number(displayNum);
+　　        calType = "add";
+　　        if(calProg === 0){
+    　　        calProg = Number(displayNum);
+　　        }
+            else{
+　　          calProg += Number(displayNum);
+            }
+　　        console.log(calProg);
 　　        displayNum = "";
 　　        break;
 　　      
 　　      case "cal-eq":
-　　        calNum02 = Number(displayNum);
-　　        displayNum = 0;
-　　        displayNum = calNum01 + calNum02;
+　　        if(calType === "divi"){
+  　　         calResult = calProg / Number(displayNum);
+  　　         console.log(calResult);
+　　        }
+　　        if(calType === "multi"){
+  　　         calResult = calProg * Number(displayNum);
+  　　         console.log(calResult);
+　　        }
+　　        if(calType === "sub"){
+  　　         calResult = calProg - Number(displayNum);
+  　　         console.log(calResult);
+　　        }
+　　        if(calType === "add"){
+  　　         calResult = calProg + Number(displayNum);
+  　　         console.log(calResult);
+　　        }
 　　        break;
 　　        
         };
         
-        result.textContent = Number(displayNum);
+        if(calResult){
+　　      result.textContent = calResult;
+　　      setFontSize = 400 / calResult.toString().length;
+　　      if(defaultFontSize > setFontSize){
+　　        result.style.fontSize = setFontSize + "px";
+　　      }
+        }
+        else{
+　　     result.textContent = Number(displayNum);
+        }
         
       });
       
       cal_clear.addEventListener('click', function(){
         displayNum = "0";
-        calNum01 = null;
-        calNum02 = null;
+        calProg = 0;
+        calResult = null;
+        calType = null;
+        result.style.fontSize = defaultFontSize + "px";
       });
      
-  // })();
+   })();
  </script>
 </body>
 
