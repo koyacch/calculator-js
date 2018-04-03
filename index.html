@@ -131,7 +131,7 @@
  </div>
  
  <script type="text/javascript" >
-   (function(){
+   //(function(){
      
      'use strict';
      
@@ -157,11 +157,10 @@
       var cal_all = document.getElementById('cal-all');
       
       var displayNum = "0";
-      var calNum01;
-      var calNum02;
       var calProg = 0;
-      var calResult;
-      var calType;
+      var calResult = null;
+      var calType = null;
+      var calContinue = false;
       
       var defaultFontSize = 36;
       var setFontSize;
@@ -176,12 +175,17 @@
         
         for(var i = 0; i<10; i++){
           if(setId === "cal-" + i){
-            if(displayNum.length < 11){
+            if(Number(displayNum).toString().length < 11){
               displayNum += i.toString();
+              calContinue = false;
             }
           }
         }
         
+        // check display num
+        if(displayNum === "0" && calType === null){
+          return;
+        }
         // calculation switch
         
         switch(setId){
@@ -194,7 +198,6 @@
 　　        else{
 　　          calProg /= Number(displayNum);
 　　        }
-　　        console.log(calProg);
 　　        displayNum = "";
 　　        break;
 　　      
@@ -206,7 +209,6 @@
 　　        else{
 　　          calProg *= Number(displayNum);
 　　        }
-　　        console.log(calProg);
 　　        displayNum = "";
 　　        break;
 　　      
@@ -218,7 +220,6 @@
 　　        else{
 　　          calProg -= Number(displayNum);
 　　        }
-　　        console.log(calProg);
 　　        displayNum = "";
 　　        break;
 　　      
@@ -229,33 +230,37 @@
 　　        }
             else{
 　　          calProg += Number(displayNum);
+　　          calContinue = true;
             }
-　　        console.log(calProg);
 　　        displayNum = "";
 　　        break;
 　　      
 　　      case "cal-eq":
-　　        if(calType === "divi"){
-  　　         calResult = calProg / Number(displayNum);
-  　　         console.log(calResult);
+　　        if(calContinue === false){
+　　          if(calType === "divi"){
+    　　         calResult = calProg / Number(displayNum);
+    　　        }
+  　　        if(calType === "multi"){
+    　　         calResult = calProg * Number(displayNum);
+  　  　        }
+  　　        if(calType === "sub"){
+    　　         calResult = calProg - Number(displayNum);
+  　　          }
+  　　        if(calType === "add"){
+    　　         calResult = calProg + Number(displayNum);
+  　　          }
 　　        }
-　　        if(calType === "multi"){
-  　　         calResult = calProg * Number(displayNum);
-  　　         console.log(calResult);
+　　        else{
+　　          calResult = calProg;
 　　        }
-　　        if(calType === "sub"){
-  　　         calResult = calProg - Number(displayNum);
-  　　         console.log(calResult);
-　　        }
-　　        if(calType === "add"){
-  　　         calResult = calProg + Number(displayNum);
-  　　         console.log(calResult);
-　　        }
+　　        calContinue = false;
+　　        calType = null;
+　　        calProg = calResult;
 　　        break;
 　　        
         };
         
-        if(calResult){
+        if(calResult !== null){
 　　      result.textContent = calResult;
 　　      setFontSize = 400 / calResult.toString().length;
 　　      if(defaultFontSize > setFontSize){
@@ -270,13 +275,13 @@
       
       cal_clear.addEventListener('click', function(){
         displayNum = "0";
+        result.textContent = displayNum;
         calProg = 0;
         calResult = null;
-        calType = null;
         result.style.fontSize = defaultFontSize + "px";
       });
      
-   })();
+   //})();
  </script>
 </body>
 
