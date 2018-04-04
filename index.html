@@ -106,7 +106,7 @@
        <div id="result">0</div>
      </div>
      <div class="wrap-cal" id="cal-all">
-       <div class="cal-left">
+       <div class="cal-left" id="cal-num">
          <div class="clear-width"><span id="cal-clear">C</span></div>
          <div><span id="cal-9">9</span></div>
          <div><span id="cal-8">8</span></div>
@@ -135,163 +135,127 @@
      
      'use strict';
      
+     // selecter
      var result = document.getElementById('result');
      
-      var cal_0 = document.getElementById('cal-0');
-      var cal_1 = document.getElementById('cal-1');
-      var cal_2 = document.getElementById('cal-2');
-      var cal_3 = document.getElementById('cal-3');
-      var cal_4 = document.getElementById('cal-4');
-      var cal_5 = document.getElementById('cal-5');
-      var cal_6 = document.getElementById('cal-6');
-      var cal_7 = document.getElementById('cal-7');
-      var cal_8 = document.getElementById('cal-8');
-      var cal_9 = document.getElementById('cal-9');
-      var cal_clear = document.getElementById('cal-clear');
-      var cal_divi = document.getElementById('cal-divi');
-      var cal_multi = document.getElementById('cal-multi');
-      var cal_sub = document.getElementById('cal-sub');
-      var cal_add = document.getElementById('cal-add');
-      var cal_eq = document.getElementById('cal-eq');
-      
-      var cal_all = document.getElementById('cal-all');
-      
-      var displayNum = "0";
-      var calProg = 0;
-      var calResult = null;
-      var calType = null;
-      var calContinue = false;
-      
-      var defaultFontSize = 36;
-      var setFontSize;
-      
-      cal_all.addEventListener('click', function(e){
-
-        // get keytype id
-
-        var setId = e.target.id;
-        
-        // display number
-        
-        for(var i = 0; i<10; i++){
+     // number type
+     
+     var calNum = document.getElementById('cal-num');
+    var displayNum = 0;
+     var calDigest = 11;
+     
+     calNum.addEventListener('click', function(e){
+       
+       var setId = e.target.id;
+       
+       for(var i = 0; i < 10; i++){
           if(setId === "cal-" + i){
-            if(Number(displayNum).toString().length < 11){
+            if(Number(displayNum).toString().length < calDigest){
               displayNum += i.toString();
-              calContinue = false;
-              console.log(displayNum);
+              result.textContent = Number(displayNum);              
             }
           }
         }
-        
-        // check display num
-        if(displayNum === "0" && calType === null){
-          return;
-        }
-        // calculation switch
-        
-        switch(setId){
+     });
 
-　　      case "cal-divi":
-　　        calResult = null;
-　　        calType = "divi";
-　　        if(calProg === 0 || calContinue === true){
-    　　        calProg = Number(displayNum);
-　　        }
-　　        else{
-　　          calProg /= Number(displayNum);
-　　          calContinue = true;
-　　        }
-　　        displayNum = "";
-　　        break;
-　　      
-　　      case "cal-multi":
-　　        calResult = null;
-　　        calType = "multi";
-　　        if(calProg === 0 || calContinue === true){
-    　　        calProg = Number(displayNum);
-　　        }
-　　        else{
-　　          calProg *= Number(displayNum);
-　　          calContinue = true;
-　　        }
-　　        displayNum = "";
-　　        break;
-　　      
-　　      case "cal-sub":
-　　        calResult = null;
-　　        calType = "sub";
- 　　        if(calProg === 0 || calContinue === true){
-    　　        calProg = Number(displayNum);
-　　        }
-　　        else{
-　　          calProg -= Number(displayNum);
-　　          calContinue = true;
-　　        }
-　　        displayNum = "";
-　　        break;
-　　      
-　　      case "cal-add":
-　　        calResult = null;
-　          calType = "add";
-　　        if(calProg === 0 || calContinue === true){
-    　　        calProg = Number(displayNum);
-　　        }
-            else{
-　　          calProg += Number(displayNum);
-　　          calContinue = true;
-            }
-　　        displayNum = "";
-　　        break;
-　　      
-　　      case "cal-eq":
-　　        if(calContinue === false){
-　　          if(calType === "divi"){
-    　　         calResult = calProg / Number(displayNum);
-    　　        }
-  　　        if(calType === "multi"){
-    　　         calResult = calProg * Number(displayNum);
-  　  　        }
-  　　        if(calType === "sub"){
-    　　         calResult = calProg - Number(displayNum);
-  　　          }
-  　　        if(calType === "add"){
-    　　         calResult = calProg + Number(displayNum);
-  　　          }
-　　          calProg = calResult;
-　　        }
-　　        else{
-　　          calResult = calProg;
-　　        }
-　　        calContinue = true;
-　　        calType = null;
-　　        calResult == null;
-　　        break;
-　　        
-        };
-        
-        if(calResult !== null){
-　　      result.textContent = calResult;
-　　      displayNum = calResult;
-　　      setFontSize = 400 / calResult.toString().length;
-　　      if(defaultFontSize > setFontSize){
-　　        result.style.fontSize = setFontSize + "px";
-　　      }
-　　      console.log("calResult" + calResult);
-        }
-        else{
-　　     result.textContent = Number(displayNum);
-        }
-        
-      });
+    // calc array
+    var calcArray = [];
+    
+    // action add
+    var calAdd = document.getElementById('cal-add');
+    
+    calAdd.addEventListener('click', function(){
       
-      cal_clear.addEventListener('click', function(){
-        displayNum = "0";
+      if(displayNum !== 0){
+        calcArray.push(Number(displayNum));
+        displayNum = calcF(calcArray);
         result.textContent = displayNum;
-        calProg = 0;
-        calResult = null;
-        result.style.fontSize = defaultFontSize + "px";
-      });
-     
+        displayNum = 0;
+        calcArray.push("+");
+      }
+      
+    });
+    
+    // action sub
+    var calSub = document.getElementById('cal-sub');
+    
+    calSub.addEventListener('click', function(){
+      
+      if(displayNum !== 0){
+        calcArray.push(Number(displayNum));
+        displayNum = calcF(calcArray);
+        result.textContent = displayNum;
+        displayNum = 0;
+        calcArray.push("-");
+      }
+      
+    });
+    
+    // action multi
+    var calMulti = document.getElementById('cal-multi');
+    
+    calMulti.addEventListener('click', function(){
+      
+      if(displayNum !== 0){
+        calcArray.push(Number(displayNum));
+        displayNum = calcF(calcArray);
+        result.textContent = displayNum;
+        displayNum = 0;
+        calcArray.push("*");
+      }
+      
+    });
+    
+    // action divi
+     var calDivi = document.getElementById('cal-divi');
+    
+    calDivi.addEventListener('click', function(){
+      
+      if(displayNum !== 0){
+        calcArray.push(Number(displayNum));
+        displayNum = calcF(calcArray);
+        result.textContent = displayNum;
+        displayNum = 0;
+        calcArray.push("/");
+      }
+      
+    });
+    
+    // action equal
+    var calEq = document.getElementById('cal-eq');
+    
+    calEq.addEventListener('click', function(){
+      
+        calcArray.push(Number(displayNum));
+        displayNum = calcF(calcArray);
+        result.textContent = displayNum;
+        displayNum = 0;
+
+    });
+    
+    // action clear
+    
+    var calClear = document.getElementById('cal-clear');
+    
+    calClear.addEventListener('click', function() {
+        
+        displayNum = 0;
+        result.textContent = displayNum;
+        calcArray = [];
+        
+    })
+    
+    // calculation
+    
+    function calcF(array){
+      
+      var calcResult = 0;
+      calcResult = eval(array.join(""));
+      console.log(array.join(""));
+      return calcResult;
+      
+    }
+ 
    //})();
  </script>
 </body>
