@@ -141,7 +141,7 @@
      // number type
      
      var calNum = document.getElementById('cal-num');
-    var displayNum = 0;
+     var displayNum = 0;
      var calDigest = 11;
      
      calNum.addEventListener('click', function(e){
@@ -152,7 +152,8 @@
           if(setId === "cal-" + i){
             if(Number(displayNum).toString().length < calDigest){
               displayNum += i.toString();
-              result.textContent = Number(displayNum);              
+              result.textContent = Number(displayNum);
+              calStartFlag = false;
             }
           }
         }
@@ -161,12 +162,15 @@
     // calc array
     var calcArray = [];
     
+    // cal start flag
+    var calStartFlag = true;
+    
     // action add
     var calAdd = document.getElementById('cal-add');
     
     calAdd.addEventListener('click', function(){
       
-      if(displayNum !== 0){
+      if(calStartFlag !== true){
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
         result.textContent = displayNum;
@@ -181,7 +185,7 @@
     
     calSub.addEventListener('click', function(){
       
-      if(displayNum !== 0){
+      if(calStartFlag !== true){
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
         result.textContent = displayNum;
@@ -196,7 +200,7 @@
     
     calMulti.addEventListener('click', function(){
       
-      if(displayNum !== 0){
+      if(calStartFlag !== true){
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
         result.textContent = displayNum;
@@ -211,7 +215,7 @@
     
     calDivi.addEventListener('click', function(){
       
-      if(displayNum !== 0){
+      if(calStartFlag !== true){
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
         result.textContent = displayNum;
@@ -228,9 +232,8 @@
       
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
+        calcArray = [];
         result.textContent = displayNum;
-        displayNum = 0;
-
     });
     
     // action clear
@@ -242,6 +245,7 @@
         displayNum = 0;
         result.textContent = displayNum;
         calcArray = [];
+        calStartFlag = true;
         
     })
     
