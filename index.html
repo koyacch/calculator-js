@@ -178,6 +178,7 @@
             if(Number(displayNum).toString().length < 11){
               displayNum += i.toString();
               calContinue = false;
+              console.log(displayNum);
             }
           }
         }
@@ -191,41 +192,48 @@
         switch(setId){
 
 　　      case "cal-divi":
+　　        calResult = null;
 　　        calType = "divi";
-  　　        if(calProg === 0){
+　　        if(calProg === 0 || calContinue === true){
     　　        calProg = Number(displayNum);
 　　        }
 　　        else{
 　　          calProg /= Number(displayNum);
+　　          calContinue = true;
 　　        }
 　　        displayNum = "";
 　　        break;
 　　      
 　　      case "cal-multi":
+　　        calResult = null;
 　　        calType = "multi";
-  　　        if(calProg === 0){
+　　        if(calProg === 0 || calContinue === true){
     　　        calProg = Number(displayNum);
 　　        }
 　　        else{
 　　          calProg *= Number(displayNum);
+　　          calContinue = true;
 　　        }
 　　        displayNum = "";
 　　        break;
 　　      
 　　      case "cal-sub":
+　　        calResult = null;
 　　        calType = "sub";
-  　　        if(calProg === 0){
+ 　　        if(calProg === 0 || calContinue === true){
     　　        calProg = Number(displayNum);
 　　        }
 　　        else{
 　　          calProg -= Number(displayNum);
+　　          calContinue = true;
 　　        }
 　　        displayNum = "";
 　　        break;
 　　      
 　　      case "cal-add":
-　　        calType = "add";
-　　        if(calProg === 0){
+　　        calResult = null;
+　          calType = "add";
+　　        if(calProg === 0 || calContinue === true){
     　　        calProg = Number(displayNum);
 　　        }
             else{
@@ -249,23 +257,26 @@
   　　        if(calType === "add"){
     　　         calResult = calProg + Number(displayNum);
   　　          }
+　　          calProg = calResult;
 　　        }
 　　        else{
 　　          calResult = calProg;
 　　        }
-　　        calContinue = false;
+　　        calContinue = true;
 　　        calType = null;
-　　        calProg = calResult;
+　　        calResult == null;
 　　        break;
 　　        
         };
         
         if(calResult !== null){
 　　      result.textContent = calResult;
+　　      displayNum = calResult;
 　　      setFontSize = 400 / calResult.toString().length;
 　　      if(defaultFontSize > setFontSize){
 　　        result.style.fontSize = setFontSize + "px";
 　　      }
+　　      console.log("calResult" + calResult);
         }
         else{
 　　     result.textContent = Number(displayNum);
