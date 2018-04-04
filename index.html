@@ -144,6 +144,8 @@
      var displayNum = 0;
      var calDigest = 11;
      
+     // default possible key
+
      calNum.addEventListener('click', function(e){
        
        var setId = e.target.id;
@@ -158,7 +160,7 @@
           }
         }
      });
-
+     
     // calc array
     var calcArray = [];
     
@@ -174,6 +176,7 @@
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
         result.textContent = displayNum;
+        calcArray = [displayNum];
         displayNum = 0;
         calcArray.push("+");
       }
@@ -189,6 +192,7 @@
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
         result.textContent = displayNum;
+        calcArray = [displayNum];
         displayNum = 0;
         calcArray.push("-");
       }
@@ -204,6 +208,7 @@
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
         result.textContent = displayNum;
+        calcArray = [displayNum];
         displayNum = 0;
         calcArray.push("*");
       }
@@ -219,9 +224,10 @@
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
         result.textContent = displayNum;
+        calcArray = [displayNum];
         displayNum = 0;
         calcArray.push("/");
-      }
+     }
       
     });
     
