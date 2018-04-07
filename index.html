@@ -240,10 +240,13 @@
     
     calEq.addEventListener('click', function(){
       
+      if(calStartFlag === false){
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
         calcArray = [];
         result.textContent = displayNum;
+      }
+      
     });
     
     // action clear
