@@ -142,7 +142,7 @@
      
      var calNum = document.getElementById('cal-num');
      var displayNum = 0;
-     var calDigest = 11;
+     var calDigest = 10;
      
      // default possible key
 
@@ -154,7 +154,7 @@
           if(setId === "cal-" + i){
             if(Number(displayNum).toString().length < calDigest){
               displayNum += i.toString();
-              result.textContent = Number(displayNum);
+              result.textContent = addDisplay(displayNum);
               calStartFlag = false;
             }
           }
@@ -175,7 +175,7 @@
       if(calStartFlag !== true){
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
-        result.textContent = displayNum;
+        result.textContent = addDisplay(displayNum);
         calcArray = [displayNum];
         displayNum = 0;
         calcArray.push("+");
@@ -192,7 +192,7 @@
       if(calStartFlag !== true){
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
-        result.textContent = displayNum;
+        result.textContent = addDisplay(displayNum);
         calcArray = [displayNum];
         displayNum = 0;
         calcArray.push("-");
@@ -209,7 +209,7 @@
       if(calStartFlag !== true){
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
-        result.textContent = displayNum;
+        result.textContent = addDisplay(displayNum);
         calcArray = [displayNum];
         displayNum = 0;
         calcArray.push("*");
@@ -226,7 +226,7 @@
       if(calStartFlag !== true){
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
-        result.textContent = displayNum;
+        result.textContent = addDisplay(displayNum);
         calcArray = [displayNum];
         displayNum = 0;
         calcArray.push("/");
@@ -244,7 +244,7 @@
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
         calcArray = [];
-        result.textContent = displayNum;
+        result.textContent = addDisplay(displayNum);
       }
       
     });
@@ -256,7 +256,7 @@
     calClear.addEventListener('click', function() {
         
         displayNum = 0;
-        result.textContent = displayNum;
+        result.textContent = addDisplay(displayNum);
         calcArray = [];
         calStartFlag = true;
         
@@ -271,6 +271,36 @@
       console.log(array.join(""));
       return calcResult;
       
+    }
+    
+    // result add comma
+    
+    function addDisplay(result){
+      
+      var returnResult = [];
+      var regexp = /^[0-9]+/;
+
+      if(regexp.test(Number(result)) && Number.isInteger(Number(result)) ){
+
+        var s = 0;
+        var cammaResult = Number(result).toString().split("");
+        for(var i = (cammaResult.length - 1);i >= 0; i--){
+          if(s%3 === 0 && s !== 0){
+            returnResult.unshift(","); 
+          }
+          
+          returnResult.unshift(cammaResult[i]); 
+          s++;
+
+        }
+        return returnResult.join("");
+        
+      }
+      else{
+        
+        return result;
+        
+      }
     }
  
    //})();
