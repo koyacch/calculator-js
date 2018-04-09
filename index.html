@@ -131,7 +131,7 @@
  </div>
  
  <script type="text/javascript" >
-   //(function(){
+   (function(){
      
      'use strict';
      
@@ -275,35 +275,43 @@
     
     // result add comma
     
-    function addDisplay(result){
+    function addDisplay(value){
       
+      var result = "";
+      var resultCamma = ""
+      var resultNumber = Number(value).toString();
       var returnResult = [];
       var regexp = /^[0-9]+/;
-
+      
+      var isPeriod = resultNumber.indexOf(".");
+      
+      if(isPeriod !== -1){
+        result = resultNumber.slice(0, isPeriod -1);
+        resultCamma = resultNumber.slice(isPeriod);
+      }
+      else{
+        result = resultNumber;
+      }
+      
       if(regexp.test(Number(result)) && Number.isInteger(Number(result)) ){
-
         var s = 0;
         var cammaResult = Number(result).toString().split("");
         for(var i = (cammaResult.length - 1);i >= 0; i--){
           if(s%3 === 0 && s !== 0){
             returnResult.unshift(","); 
           }
-          
           returnResult.unshift(cammaResult[i]); 
           s++;
-
         }
-        return returnResult.join("");
-        
+        return returnResult.join("") + resultCamma;
       }
       else{
-        
-        return result;
-        
+        return result + resultCamma;
       }
+        
     }
  
-   //})();
+   })();
  </script>
 </body>
 
