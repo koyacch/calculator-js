@@ -1,4 +1,4 @@
-   (function(){
+   //(function(){
      
      'use strict';
      
@@ -26,8 +26,22 @@
             }
           }
         }
+        
+       // default possible key priod
+  
+       if(setId === "cal-priod" && displayNum.toString().indexOf(".") === -1){
+         if(displayNum === 0){
+           displayNum += "0.";
+         }
+         else{
+          displayNum += ".";
+         }
+        result.textContent = addDisplay(displayNum);
+        calStartFlag = false;
+      }
+       
      });
-     
+    
     // calc array
     var calcArray = [];
     
@@ -160,6 +174,9 @@
         result = resultNumber;
       }
       
+      console.log("カンマ以上 " + result);
+      console.log("カンマ以下 " + resultCamma);
+      
       if(regexp.test(Number(result)) && Number.isInteger(Number(result)) ){
         var s = 0;
         var cammaResult = Number(result).toString().split("");
@@ -178,4 +195,4 @@
         
     }
  
-   })();
+   //})();

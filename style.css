@@ -77,9 +77,11 @@
       width: calc(100% / 3);
       display: inline-block;
     }
-    div.clear-width,
-    div.zero-width{
+    div.clear-width{
       width: 100%;
+    }
+    div.zero-width{
+      width:calc(100% / 3 * 2);
     }
     .cal-right span{
       background-color: #00c;
