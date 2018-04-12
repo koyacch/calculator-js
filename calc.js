@@ -1,4 +1,4 @@
-   //(function(){
+   (function(){
      
      'use strict';
      
@@ -30,7 +30,7 @@
        // default possible key priod
   
        if(setId === "cal-priod" && displayNum.toString().indexOf(".") === -1){
-         if(displayNum === 0){
+         if(displayNum === 0 || displayNum === "-"){
            displayNum += "0.";
          }
          else{
@@ -70,7 +70,10 @@
     
     calSub.addEventListener('click', function(){
       
-      if(calStartFlag !== true){
+      if(calcArray.length === 0 && calStartFlag === true){
+        displayNum = "-";
+      }
+      else if(calStartFlag !== true){
         calcArray.push(Number(displayNum));
         displayNum = calcF(calcArray);
         result.textContent = addDisplay(displayNum);
@@ -149,7 +152,6 @@
       
       var calcResult = 0;
       calcResult = eval(array.join(""));
-      console.log(array.join(""));
       return calcResult;
       
     }
@@ -162,7 +164,7 @@
       var resultCamma = ""
       var resultNumber = Number(value).toString();
       var returnResult = [];
-      var regexp = /^[0-9]+/;
+      var regexp = /^(-)?[0-9]+/;
       
       var isPeriod = resultNumber.indexOf(".");
       
@@ -174,12 +176,12 @@
         result = resultNumber;
       }
       
-      console.log("カンマ以上 " + result);
-      console.log("カンマ以下 " + resultCamma);
+//      console.log("カンマ以上 " + result);
+//      console.log("カンマ以下 " + resultCamma);
       
       if(regexp.test(Number(result)) && Number.isInteger(Number(result)) ){
         var s = 0;
-        var cammaResult = Number(result).toString().split("");
+        var cammaResult = result.split("");
         for(var i = (cammaResult.length - 1);i >= 0; i--){
           if(s%3 === 0 && s !== 0){
             returnResult.unshift(","); 
@@ -187,7 +189,7 @@
           returnResult.unshift(cammaResult[i]); 
           s++;
         }
-        return returnResult.join("") + resultCamma;
+        return returnResult.join("").replace(/^(-,)+/, "-") + resultCamma;
       }
       else{
         return result + resultCamma;
@@ -195,4 +197,4 @@
         
     }
  
-   //})();
+   })();
